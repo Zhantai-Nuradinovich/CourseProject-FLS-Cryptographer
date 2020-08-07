@@ -1,0 +1,123 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+    <div class="text-center">
+        <h1 class="display-4">Приветствую, человек!</h1>
+    </div>
+    <div class="container row p-0 m-0">
+        <div class="col-9">
+            <h2 class="text-info">Загрузите файл</h2>
+        </div>
+
+        <div class="col-12 border p-3 mt-3">
+            <form enctype="multipart/form-data" method="post" accept-charset="utf-8">
+                <dl>
+                    <dt>
+                        <label asp-for="Key">Введите ключ</label>
+                    </dt>
+                    <dd>
+                        <input asp-for="Key" type="text">
+                        <span asp-validation-for="Key"></span>
+                    </dd>
+                    <dt>
+                        <label asp-for="FormFile">Загрузка файла</label>
+                    </dt>
+                    <dd>
+                        <input asp-for="FormFile" type="file">
+                        <span asp-validation-for="FormFile"></span>
+                    </dd>
+                    <dt>
+                        <label asp-for="ToEncrypt">Зашифровать?</label>
+                    </dt>
+                    <dd>
+                        <input asp-for="ToEncrypt" type="checkbox">
+                        <span asp-validation-for="ToEncrypt"></span>
+                    </dd>
+                </dl>
+                <input asp-page-handler="Upload" class="btn btn-info form-control text-white" type="submit" value="Начать" />
+            </form>
+        </div>
+        <div class="col-9">
+            <h2 class="text-info">Или введите текст</h2>
+        </div>
+        <div class="col-12 border p-3 mt-3">
+            <form enctype="multipart/form-data" method="post" accept-charset="utf-8">
+                <dl>
+                    <dt>
+                        <label asp-for="Key">Введите ключ</label>
+                    </dt>
+                    <dd>
+                        <input asp-for="Key" type="text">
+                        <span asp-validation-for="Key"></span>
+                    </dd>
+                    <dt>
+                        <label>Введите текст</label>
+                    </dt>
+                    <dd>
+                        <textarea class="form-control"
+                                  id="text"
+                                  name="text"
+                                  rows="5"
+                                  cols="20"></textarea>
+                    </dd>
+                    <dt>
+                        <label asp-for="ToEncrypt">Зашифровать?</label>
+                    </dt>
+                    <dd>
+                        <input asp-for="ToEncrypt" type="checkbox">
+                        <span asp-validation-for="ToEncrypt"></span>
+                    </dd>
+                </dl>
+                <input asp-page-handler="UploadText" class="btn btn-info form-control text-white" type="submit" value="Начать" />
+            </form>
+        </div>
+        <div class="col-12 border p-3 mt-3">
+            <div class="col-9">
+                <h2 class="text-info">Результат</h2>
+            </div>
+            <div class="row">
+                @if (IndexModel.model != null)
+                {
+                    <div class="col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>Содержание</h3>
+                                <p>@IndexModel.model.Decrypted</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="card">
+                                        <a asp-page-handler="DownloadTxt" asp-route-crypted="@false" class="btn btn-info form-control text-white">Скачать (TXT)</a>
+                                    </div>
+                                    <div class="card">
+                                        <a asp-page-handler="DownloadDocx" asp-route-crypted="@false" class="btn btn-info form-control text-white">Скачать (DOCX)</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>Зашифрованный вид</h3>
+                                <p>@IndexModel.model.Encrypted</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="card">
+                                        <a asp-page-handler="DownloadTxt" asp-route-crypted="@true" class="btn btn-info form-control text-white">Скачать (TXT)</a>
+                                    </div>
+                                    <div class="card">
+                                        <a asp-page-handler="DownloadDocx" asp-route-crypted="@true" class="btn btn-info form-control text-white">Скачать (DOCX)</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
